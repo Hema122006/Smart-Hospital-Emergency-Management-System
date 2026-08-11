@@ -6,23 +6,25 @@ import com.smarthospital.entity.Admin;
 import com.smarthospital.repository.AdminRepository;
 
 @Service
-public class AdminService {
+public Admin login(String username, String password) {
 
-    private final AdminRepository repository;
+    System.out.println("USERNAME RECEIVED = [" + username + "]");
+    System.out.println("PASSWORD LENGTH = " +
+            (password == null ? "NULL" : password.length()));
 
-    public AdminService(AdminRepository repository) {
-        this.repository = repository;
+    Admin admin = repository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+
+    System.out.println("USERNAME FROM DB = [" + admin.getUsername() + "]");
+    System.out.println("PASSWORD LENGTH FROM DB = " +
+            (admin.getPassword() == null ? "NULL" : admin.getPassword().length()));
+
+    if (!admin.getPassword().equals(password)) {
+        System.out.println("PASSWORD DOES NOT MATCH");
+        throw new RuntimeException("Invalid username or password");
     }
 
-    public Admin login(String username, String password) {
+    System.out.println("PASSWORD MATCHED");
 
-        Admin admin = repository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
-
-        if (!admin.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid username or password");
-        }
-
-        return admin;
-    }
+    return admin;
 }
