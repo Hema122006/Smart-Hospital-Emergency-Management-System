@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/settings";
+const API_URL = "https://smart-hospital-backend-zsw3.onrender.com/api/settings";
 
 export const getSettings = () => {
   return axios.get(API_URL);

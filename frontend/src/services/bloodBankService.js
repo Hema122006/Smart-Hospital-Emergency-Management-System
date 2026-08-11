@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:8080/api/blood-bank";
+const API = "https://smart-hospital-backend-zsw3.onrender.com/api/blood-bank";
 
 export const getBloodBank = () => axios.get(API);
 

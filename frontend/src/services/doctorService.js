@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:8080/api/doctors";
+const API = "https://smart-hospital-backend-zsw3.onrender.com/api/doctors";
 
 export const getDoctors = () => axios.get(API);
 
