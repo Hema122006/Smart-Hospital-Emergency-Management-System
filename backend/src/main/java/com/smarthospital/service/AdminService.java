@@ -16,26 +16,12 @@ public class AdminService {
 
     public Admin login(String username, String password) {
 
-        System.out.println("USERNAME RECEIVED = [" + username + "]");
-        System.out.println("PASSWORD LENGTH = " +
-                (password == null ? "NULL" : password.length()));
+        Admin admin = repository.findByUsername(username.trim())
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
 
-        Admin admin = repository.findByUsername(username)
-                .orElseThrow(() ->
-                        new RuntimeException("Invalid username or password"));
-
-        System.out.println("USERNAME FROM DB = [" + admin.getUsername() + "]");
-        System.out.println("PASSWORD LENGTH FROM DB = " +
-                (admin.getPassword() == null
-                        ? "NULL"
-                        : admin.getPassword().length()));
-
-        if (!admin.getPassword().equals(password)) {
-            System.out.println("PASSWORD DOES NOT MATCH");
+        if (!admin.getPassword().trim().equals(password.trim())) {
             throw new RuntimeException("Invalid username or password");
         }
-
-        System.out.println("PASSWORD MATCHED");
 
         return admin;
     }
