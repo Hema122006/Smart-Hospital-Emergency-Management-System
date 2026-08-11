@@ -6,25 +6,37 @@ import com.smarthospital.entity.Admin;
 import com.smarthospital.repository.AdminRepository;
 
 @Service
-public Admin login(String username, String password) {
+public class AdminService {
 
-    System.out.println("USERNAME RECEIVED = [" + username + "]");
-    System.out.println("PASSWORD LENGTH = " +
-            (password == null ? "NULL" : password.length()));
+    private final AdminRepository repository;
 
-    Admin admin = repository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("Invalid username or password"));
-
-    System.out.println("USERNAME FROM DB = [" + admin.getUsername() + "]");
-    System.out.println("PASSWORD LENGTH FROM DB = " +
-            (admin.getPassword() == null ? "NULL" : admin.getPassword().length()));
-
-    if (!admin.getPassword().equals(password)) {
-        System.out.println("PASSWORD DOES NOT MATCH");
-        throw new RuntimeException("Invalid username or password");
+    public AdminService(AdminRepository repository) {
+        this.repository = repository;
     }
 
-    System.out.println("PASSWORD MATCHED");
+    public Admin login(String username, String password) {
 
-    return admin;
+        System.out.println("USERNAME RECEIVED = [" + username + "]");
+        System.out.println("PASSWORD LENGTH = " +
+                (password == null ? "NULL" : password.length()));
+
+        Admin admin = repository.findByUsername(username)
+                .orElseThrow(() ->
+                        new RuntimeException("Invalid username or password"));
+
+        System.out.println("USERNAME FROM DB = [" + admin.getUsername() + "]");
+        System.out.println("PASSWORD LENGTH FROM DB = " +
+                (admin.getPassword() == null
+                        ? "NULL"
+                        : admin.getPassword().length()));
+
+        if (!admin.getPassword().equals(password)) {
+            System.out.println("PASSWORD DOES NOT MATCH");
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        System.out.println("PASSWORD MATCHED");
+
+        return admin;
+    }
 }
